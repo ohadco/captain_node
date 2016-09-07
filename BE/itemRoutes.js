@@ -34,7 +34,10 @@ router.post('/items/create', function(req,res){
   // using bodyParser to get the title
   title = req.body.title;
   // check that title is present - otherwise returns 422 Unprocessable Entity response
-  if (!title || title == "") res.status(422);
+  if (!title || title == "") {
+    res.status(422).send();
+    return;
+  }
   var newItem = new itemModel({
     title: req.body.title
   });

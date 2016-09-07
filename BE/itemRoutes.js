@@ -36,23 +36,21 @@ router.get('/items/:itemId', function(req, res) {
 router.post('/items/create', function(req,res) {
   // using bodyParser to get the title
   title = req.body.title;
-
   // check that title is present - otherwise returns 422 Unprocessable Entity response
-  if (!title || title == '') {
+  if (!title || title == "") {
     res.status(422).send();
-    return;
+  } else {
+    var newItem = new itemModel({
+      title
+    });
+
+    // returns "items/show.ejs" partial as html - (prepend it to the items div in items.js)
+    newItem.save().then(function(item) {
+      res.render('items/show.ejs', { item });
+    }, function(err){
+      res.status(500).send();
+    });
   }
-
-  var newItem = new itemModel({
-    title: req.body.title
-  });
-
-  // returns "items/show.ejs" partial as html - (prepend it to the items div in items.js)
-  newItem.save().then(function(item) {
-    res.render('items/show.ejs', { item });
-  }, function(err){
-    res.status(500).send();
-  });
 });
 
 // DELETE an item (by id)

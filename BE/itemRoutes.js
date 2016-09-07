@@ -65,5 +65,14 @@ router.delete('/items', function(req,res) {
   });
 });
 
+// DELETE all items
+router.delete('/items/remove_all', function(req,res) {
+  itemModel.find().remove().then(function(item) {
+    res.send({});
+  }, function(err){
+    res.status(500).send({ err });
+  });
+});
+
 // export the new configured item routes
 module.exports = router;

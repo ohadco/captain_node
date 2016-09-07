@@ -39,11 +39,25 @@ function removeItem(itemId) {
     }
  });
 }
+// remove all items
+function removeAllItems() {
+  $.ajax({
+    type:'DELETE',
+    url:'/items/remove_all',
+    success:function(data) {
+      if(data) {
+        $('.item').remove();
 
+        // [TODO] - add visual notification on page
+      } else { alert("Sorry.. you can't do that") }
+    }
+ });
+}
 // functions to run after page loads:
 $(document).ready(function() {
   // listener for clicking the button that adds item (using ajax)
   document.getElementById('add_item').addEventListener('click', addItem);
+  document.getElementById('remove_all_items').addEventListener('click', removeAllItems);
   /**
   * allow adding items on "Enter" - for quick inserting
   * triggers add_item click on enter (only when the user focuse on the title input field)
